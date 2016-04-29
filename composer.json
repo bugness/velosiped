@@ -14,8 +14,8 @@
     ],
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": {
-            "Velosiped": "src/"
+        "psr-4": {
+            "Velosiped\\": "src/"
         }
     }
 }
