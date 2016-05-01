@@ -4,74 +4,23 @@ namespace Velosiped;
 
 class Application
 {
-    /**
-     * @var array
-     */
-    protected $routes = [];
+    use Component;
 
     /**
-     * @var Config|null
+     * @param Router $router
+     * @throws \InvalidArgumentException
      */
-    protected $config = null;
-
-    /**
-     * @return array
-     */
-    public function getRoutes()
-    {
-        return $this->routes;
-    }
-
-    /**
-     * @return Config|null
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @param array $routes
-     * @return Application
-     */
-    public function setRoutes($routes = [])
-    {
-        $this->routes = $routes;
-        return $this;
-    }
-
-    /**
-     * @param Config $config
-     * @return Application
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-        return $this;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function run()
+    public function run(Router $router)
     {
         try {
-            $request = new Request;
+            $request = $this->getRequest();
 
-            $controllerName = $request->getControllerName();
-            if (array_key_exists($controllerName, $this->routes)) {
-                $controller = new $this->routes[$controllerName];
-            } else {
-                throw new \Exception('Controller not found');
-            }
-
+            $controller = $router->getController($request->getControllerName());
             $controller
                 ->setRequest($request)
-                ->setResponse(new Response)
-                ->setView(new View)
                 ->doAction($request->getActionName())
             ;
-        } catch (\Exception $e) {
+        } catch (\InvalidArgumentException $e) {
             exit($e->getMessage());
         }
     }
