@@ -4,7 +4,7 @@ namespace Velosiped;
 
 abstract class Controller
 {
-    use Component;
+    use ContainerAware;
 
     public function init()
     {
@@ -24,7 +24,7 @@ abstract class Controller
         }
 
         if (method_exists($this, $actionName . 'Action')) {
-            $this->response->send($this->{$actionName . 'Action'}());
+            $this->getContainer()->getResponse()->send($this->{$actionName . 'Action'}());
         } else {
             throw new \InvalidArgumentException('Action not found');
         }
