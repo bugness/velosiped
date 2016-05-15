@@ -4,24 +4,31 @@ namespace Velosiped;
 
 class Application
 {
-    use Component;
+    use ContainerAware;
+
+    const EXIT_SUCCESS = 0;
+    const EXIT_FAILURE = 1;
 
     /**
      * @param Router $router
-     * @throws \InvalidArgumentException
+     * @return int - exit status
      */
     public function run(Router $router)
     {
         try {
-            $request = $this->getRequest();
+            $request = $this->getContainer()->getRequest();
 
             $controller = $router->getController($request->getControllerName());
             $controller
-                ->setRequest($request)
+                ->setContainer($this->getContainer())
                 ->doAction($request->getActionName())
             ;
-        } catch (\InvalidArgumentException $e) {
-            exit($e->getMessage());
+        } catch (\LogicException $e) {
+            return self::EXIT_FAILURE;
+        } catch (\Exception $e) {
+            return self::EXIT_FAILURE;
         }
+
+        return self::EXIT_SUCCESS;
     }
 }
