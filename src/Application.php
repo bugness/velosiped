@@ -16,7 +16,8 @@ class Application
         $container = new Container;
         $container->setConfig($config);
 
-        $router = new Router($config->get('routes', []));
+        $router = new Router();
+        $router->setRoutes($config->get('routes', []));
 
         return [$container, $router];
     }

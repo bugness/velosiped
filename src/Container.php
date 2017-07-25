@@ -60,7 +60,7 @@ class Container
     public function getView() : View
     {
         if (!$this->view) {
-            $this->setView(new View);
+            $this->setView(new View($this->getConfig()->get('templates')));
         }
         return $this->view;
     }
