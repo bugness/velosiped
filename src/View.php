@@ -23,7 +23,7 @@ class View
      * @return string
      * @throws \Exception
      */
-    public function render($template, $data = [])
+    public function render($template, $data = []) : string
     {
         $file = $this->path . $template;
         if (file_exists($file)) {
@@ -36,7 +36,7 @@ class View
 
             return $buffer;
         } else {
-            throw new \Exception('Template not found');
+            throw new \RuntimeException('Template not found');
         }
     }
 

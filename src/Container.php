@@ -25,9 +25,9 @@ class Container
     protected $config;
 
     /**
-     * @return Config|null
+     * @return Config
      */
-    public function getConfig()
+    public function getConfig() : Config
     {
         return $this->config;
     }
@@ -35,7 +35,7 @@ class Container
     /**
      * @return Request
      */
-    public function getRequest()
+    public function getRequest() : Request
     {
         if (!$this->request) {
             $this->setRequest(new Request);
@@ -46,7 +46,7 @@ class Container
     /**
      * @return Response
      */
-    public function getResponse()
+    public function getResponse() : Response
     {
         if (!$this->response) {
             $this->setResponse(new Response);
@@ -57,7 +57,7 @@ class Container
     /**
      * @return View
      */
-    public function getView()
+    public function getView() : View
     {
         if (!$this->view) {
             $this->setView(new View);
@@ -67,9 +67,8 @@ class Container
 
     /**
      * @param Config $config
-     * @return Application
      */
-    public function setConfig(Config $config)
+    public function setConfig(Config $config) : self
     {
         $this->config = $config;
         return $this;
@@ -78,7 +77,7 @@ class Container
     /**
      * @param Request $request
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request) : self
     {
         $this->request = $request;
         return $this;
@@ -87,7 +86,7 @@ class Container
     /**
      * @param Response $response
      */
-    public function setResponse(Response $response)
+    public function setResponse(Response $response) : self
     {
         $this->response = $response;
         return $this;
@@ -96,10 +95,9 @@ class Container
     /**
      * @param View $view
      */
-    public function setView(View $view)
+    public function setView(View $view) : self
     {
         $this->view = $view;
         return $this;
     }
 }
-

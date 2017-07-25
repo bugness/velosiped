@@ -5,42 +5,38 @@ namespace Velosiped;
 class Config
 {
     /**
-     * @var Config
-     */
-    private static $instance = null;
-
-    /**
      * @var array
      */
     private $data = [];
 
-    private function __construct()
+    public function __construct($file)
     {
-//        foreach ($parameters as $env => $vars) {
-//            $this->data = array_replace_recursive($this->data, $vars);
-//            if (APPLICATION_ENV == $env) {
-//                break;
-//            }
-//        }
-    }
-
-    private function __clone()
-    {
-        
+        if (!file_exists($file)) {
+            throw new \RuntimeException('Config not found');
+        }
+        $this->mergeEnvs(include $file);
     }
 
     /**
-     * @return Config
+     * @param mixed $key
+     * @param mixed $default
+     * @return mixed
      */
-    public static function getInstance()
+    public function get($key, $default = null)
     {
-        if (!self::$instance) {
-            self::$instance = new self;
-        }
-        return self::$instance;
+        return $this->data[$key] ?? $default;
     }
 
-    public function get($key)
+    /**
+     * @param array $params
+     */
+    private function mergeEnvs(array $params)
     {
+        foreach ($params as $env => $vars) {
+            $this->data = array_replace_recursive($this->data, $vars);
+            if (APPLICATION_ENV == $env) {
+                break;
+            }
+        }
     }
 }

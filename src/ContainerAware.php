@@ -12,7 +12,7 @@ trait ContainerAware
     /**
      * @return Container
      */
-    public function getContainer()
+    public function getContainer() : Container
     {
         if (!$this->container) {
             $this->setContainer(new Container);
@@ -23,7 +23,7 @@ trait ContainerAware
     /**
      * @param Container $container
      */
-    public function setContainer(Container $container)
+    public function setContainer(Container $container) : self
     {
         $this->container = $container;
         return $this;
